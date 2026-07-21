@@ -76,25 +76,75 @@ chmod +x "$BIN/preview-yoji-hana.command"
 say "画像最適化スクリプトを作成"
 cat > "$BIN/optimize-images.command" <<EOF
 #!/bin/zsh
-set -euo pipefail
+set -u
 DROP="$DROP"
 WEBIMG="$WEBIMG"
-mkdir -p "\$DROP" "\$WEBIMG"
-setopt null_glob
-files=("\$DROP"/*.(jpg|jpeg|png|heic|tif|tiff)(N))
-if (( \${#files[@]} == 0 )); then
-  echo "PHOTO/DROP に画像を入れてから実行してください。"
+LOGFILE="$LOG/image-optimize.log"
+mkdir -p "\$DROP" "\$WEBIMG" "\${LOGFILE:h}"
+
+found=0
+created=0
+skipped=0
+failed=0
+
+: > "\$LOGFILE"
+
+while IFS= read -r -d '' src; do
+  (( found++ ))
+  rel="\${src#\$DROP/}"
+  rel_dir="\${rel:h}"
+  base="\${rel:t:r}"
+
+  if [[ "\$rel_dir" == "." ]]; then
+    out_dir="\$WEBIMG"
+  else
+    out_dir="\$WEBIMG/\$rel_dir"
+  fi
+  mkdir -p "\$out_dir"
+  out="\$out_dir/\${base}.jpg"
+
+  if [[ -f "\$out" && "\$out" -nt "\$src" ]]; then
+    echo "既存: \$out"
+    (( skipped++ ))
+    continue
+  fi
+
+  if sips -s format jpeg -s formatOptions 82 --resampleWidth 2400 "\$src" --out "\$out" >>"\$LOGFILE" 2>&1; then
+    echo "作成: \$out"
+    (( created++ ))
+  else
+    echo "失敗: \$src"
+    rm -f "\$out"
+    (( failed++ ))
+  fi
+done < <(find "\$DROP" -type f \( \
+  -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o \
+  -iname '*.heic' -o -iname '*.heif' -o -iname '*.tif' -o \
+  -iname '*.tiff' -o -iname '*.bmp' -o -iname '*.gif' -o \
+  -iname '*.webp' \
+\) -print0)
+
+echo ""
+echo "===== 処理結果 ====="
+echo "検出画像: \$found 枚"
+echo "新規・更新: \$created 枚"
+echo "変換済み: \$skipped 枚"
+echo "変換失敗: \$failed 枚"
+echo "Web用合計: \$(find "\$WEBIMG" -type f -iname '*.jpg' | wc -l | tr -d ' ') 枚"
+
+if (( found == 0 )); then
+  echo "PHOTO/DROPとその下のフォルダに画像が見つかりませんでした。"
   open "\$DROP"
-  read -k 1 "?キーを押して閉じる..."
-  exit 0
+else
+  open "\$WEBIMG"
 fi
-for src in "\${files[@]}"; do
-  base="\${src:t:r}"
-  out="\$WEBIMG/\${base}.jpg"
-  sips -s format jpeg -s formatOptions 82 --resampleWidth 2400 "\$src" --out "\$out" >/dev/null
-  echo "作成: \$out"
-done
-open "\$WEBIMG"
+
+if (( failed > 0 )); then
+  echo "失敗の詳細: \$LOGFILE"
+fi
+
+echo ""
+read -k 1 "?キーを押して閉じる..."
 EOF
 chmod +x "$BIN/optimize-images.command"
 
