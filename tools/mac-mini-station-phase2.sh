@@ -78,11 +78,17 @@ selected=(
   IMG_9260.jpg IMG_9388.jpg IMG_9547.jpg IMG_9637.jpg IMG_9671.jpg
   IMG_9889.jpg IMG_6335.jpg IMG_6342.jpg
 )
-rm -f "\$SITEPHOTOS"/*.jpg
+find "\$SITEPHOTOS" -maxdepth 1 -type f -iname '*.jpg' -delete
 copied=0; missing=0
 for name in "\${selected[@]}"; do
   src="\$(find "\$WEBIMG" -type f -name "\$name" -print -quit)"
-  if [[ -n "\$src" ]]; then cp -f "\$src" "\$SITEPHOTOS/\$name"; (( copied++ )); else echo "不足: \$name"; (( missing++ )); fi
+  if [[ -n "\$src" ]]; then
+    cp -f "\$src" "\$SITEPHOTOS/\$name"
+    (( copied+=1 ))
+  else
+    echo "不足: \$name"
+    (( missing+=1 ))
+  fi
 done
 echo "サイト用写真: \$copied 枚 / 不足: \$missing 枚"
 EOF
