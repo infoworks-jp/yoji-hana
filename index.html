@@ -3,27 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>YOJI & HANA — WILD ELECTRIC MEMORY</title>
+<meta name="theme-color" content="#080808">
+<title>YOJI &amp; HANA — WILD ELECTRIC MEMORY</title>
+<link rel="preload" href="hana_eye.webp" as="image" type="image/webp">
+<link rel="preload" href="logo.webp" as="image" type="image/webp">
 <style>
 :root{--ink:#080808;--paper:#f2eee7;--acid:#d9ff36;--hot:#ff4e2f;--blue:#79bfff;--mx:50vw;--my:50vh}
 *{box-sizing:border-box}html{background:var(--ink);color:var(--paper);scroll-behavior:smooth}body{margin:0;background:var(--ink);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}img{display:block;max-width:100%}button{font:inherit}
 body::before{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;background:radial-gradient(250px circle at var(--mx) var(--my),transparent 0 34%,rgba(0,0,0,.16) 60%,rgba(0,0,0,.58) 100%);mix-blend-mode:multiply;opacity:.88}
-body::after{content:"";position:fixed;inset:0;z-index:101;pointer-events:none;opacity:.18;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+body::after{content:"";position:fixed;inset:0;z-index:101;pointer-events:none;opacity:.15;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
 .cursor{position:fixed;width:14px;height:14px;border-radius:50%;background:var(--acid);z-index:110;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 28px var(--acid);mix-blend-mode:difference;transition:width .2s,height .2s,background .2s}.cursor.big{width:88px;height:88px;background:#fff}
-.progress{position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,var(--hot),var(--acid),var(--blue));z-index:120;width:0}
+.progress{position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,var(--hot),var(--acid),var(--blue));z-index:120;width:0;transform-origin:left center;will-change:transform}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;mix-blend-mode:difference}.topbar a{color:#fff;text-decoration:none}.counter{font-variant-numeric:tabular-nums}
-.hero{height:100svh;position:relative;overflow:hidden;display:grid;place-items:center;background:#000}.hero-media{position:absolute;inset:-6%;background:url('hana_eye.webp') center 43%/cover no-repeat;filter:grayscale(1) contrast(1.25) brightness(.58);transform:scale(1.08);animation:breath 9s ease-in-out infinite alternate}.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.8))}.hero-copy{position:relative;z-index:2;width:min(92vw,1280px);height:82svh;display:grid;grid-template-columns:1.2fr .8fr;align-items:end}.hero-logo{align-self:start;width:min(42vw,440px);filter:drop-shadow(0 24px 55px rgba(0,0,0,.55));animation:logoIn 1.2s cubic-bezier(.2,.8,.2,1) both}.hero-title{font-size:clamp(58px,12vw,190px);line-height:.72;letter-spacing:-.075em;font-weight:900;text-transform:uppercase;margin:0;text-wrap:balance}.hero-title span{display:block}.hero-title .outline{-webkit-text-stroke:1.5px #fff;color:transparent}.hero-note{justify-self:end;max-width:280px;font-size:12px;line-height:1.7;letter-spacing:.12em;text-transform:uppercase;border-left:1px solid rgba(255,255,255,.5);padding-left:20px;margin-bottom:8px}.enter{position:absolute;right:22px;bottom:22px;z-index:3;border:1px solid rgba(255,255,255,.6);color:#fff;background:rgba(0,0,0,.22);backdrop-filter:blur(8px);padding:15px 20px;text-transform:uppercase;letter-spacing:.18em;font-size:11px;cursor:pointer}.enter:hover{background:#fff;color:#000}
-@keyframes breath{to{transform:scale(1.15) translateY(-1%)}}@keyframes logoIn{from{opacity:0;transform:translateY(-30px) rotate(-5deg) scale(.85);filter:blur(18px)}to{opacity:1;transform:none}}
-.ticker{height:70px;overflow:hidden;background:var(--acid);color:#060606;display:flex;align-items:center;transform:rotate(-1deg) scale(1.02);position:relative;z-index:3}.ticker-track{white-space:nowrap;font-size:clamp(28px,4vw,60px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;animation:marquee 20s linear infinite}.ticker-track span{padding-right:60px}@keyframes marquee{to{transform:translateX(-50%)}}
+.hero{height:100svh;position:relative;overflow:hidden;display:grid;place-items:center;background:#000}.hero-media{position:absolute;inset:-6%;background:url('hana_eye.webp') center 43%/cover no-repeat;filter:grayscale(1) contrast(1.25) brightness(.58);transform:scale(1.08);animation:breath 9s ease-in-out infinite alternate;will-change:transform}.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.8))}.hero-copy{position:relative;z-index:2;width:min(92vw,1280px);height:82svh;display:grid;grid-template-columns:1.2fr .8fr;align-items:end}.hero-logo{align-self:start;width:min(42vw,440px);filter:drop-shadow(0 24px 55px rgba(0,0,0,.55));animation:logoIn 1.2s cubic-bezier(.2,.8,.2,1) both}.hero-title{font-size:clamp(58px,12vw,190px);line-height:.72;letter-spacing:-.075em;font-weight:900;text-transform:uppercase;margin:0;text-wrap:balance}.hero-title span{display:block}.hero-title .outline{-webkit-text-stroke:1.5px #fff;color:transparent}.hero-note{justify-self:end;max-width:280px;font-size:12px;line-height:1.7;letter-spacing:.12em;text-transform:uppercase;border-left:1px solid rgba(255,255,255,.5);padding-left:20px;margin-bottom:8px}.enter{position:absolute;right:22px;bottom:22px;z-index:3;border:1px solid rgba(255,255,255,.6);color:#fff;background:rgba(0,0,0,.22);backdrop-filter:blur(8px);padding:15px 20px;text-transform:uppercase;letter-spacing:.18em;font-size:11px;cursor:pointer}.enter:hover{background:#fff;color:#000}
+@keyframes breath{to{transform:scale(1.15) translateY(-1%)}}@keyframes logoIn{from{opacity:0;transform:translateY(-30px) rotate(-5deg) scale(.85);filter:blur(18px)}to{opacity:1;transform:none}}@keyframes marquee{to{transform:translateX(-50%)}}@keyframes fall{to{transform:translate3d(0,130vh,0) rotate(540deg)}}
+.ticker{height:70px;overflow:hidden;background:var(--acid);color:#060606;display:flex;align-items:center;transform:rotate(-1deg) scale(1.02);position:relative;z-index:3}.ticker-track{white-space:nowrap;font-size:clamp(28px,4vw,60px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;animation:marquee 20s linear infinite;will-change:transform}.ticker-track span{padding-right:60px}
 .statement{min-height:105svh;display:grid;place-items:center;padding:10vw 5vw;position:relative}.statement p{font-size:clamp(42px,8vw,130px);line-height:.88;letter-spacing:-.06em;font-weight:900;text-transform:uppercase;max-width:1300px;margin:0}.statement em{font-family:Georgia,serif;font-weight:400;color:var(--hot)}
-.chapter{position:relative;height:360svh;background:#0a0a0a}.sticky{position:sticky;top:0;height:100svh;overflow:hidden}.chapter-bg{position:absolute;inset:0;background-position:center;background-size:cover;filter:brightness(.58) saturate(.9);transform:scale(1.15);will-change:transform,filter}.chapter::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82),transparent 60%);pointer-events:none}.chapter-number{position:absolute;left:3vw;top:8vh;z-index:2;font-size:11px;letter-spacing:.3em;text-transform:uppercase}.chapter-word{position:absolute;left:3vw;bottom:5vh;z-index:2;font-size:clamp(72px,18vw,270px);line-height:.75;letter-spacing:-.08em;font-weight:900;text-transform:uppercase}.chapter-word i{font-family:Georgia,serif;font-weight:400;color:var(--acid)}.chapter-caption{position:absolute;right:4vw;top:50%;z-index:2;width:min(310px,34vw);font-size:13px;line-height:1.7;letter-spacing:.08em;text-transform:uppercase;transform:translateY(-50%)}
+.chapter{position:relative;height:360svh;background:#0a0a0a}.sticky{position:sticky;top:0;height:100svh;overflow:hidden}.chapter-bg{position:absolute;inset:0;background-position:center;background-size:cover;filter:brightness(.58) saturate(.9);transform:scale(1.15);will-change:transform}.chapter::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82),transparent 60%);pointer-events:none}.chapter-number{position:absolute;left:3vw;top:8vh;z-index:2;font-size:11px;letter-spacing:.3em;text-transform:uppercase}.chapter-word{position:absolute;left:3vw;bottom:5vh;z-index:2;font-size:clamp(72px,18vw,270px);line-height:.75;letter-spacing:-.08em;font-weight:900;text-transform:uppercase}.chapter-word i{font-family:Georgia,serif;font-weight:400;color:var(--acid)}.chapter-caption{position:absolute;right:4vw;top:50%;z-index:2;width:min(310px,34vw);font-size:13px;line-height:1.7;letter-spacing:.08em;text-transform:uppercase;transform:translateY(-50%)}
 .shard{position:absolute;z-index:4;overflow:hidden;border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 90px rgba(0,0,0,.5);will-change:transform,opacity}.shard img{width:100%;height:100%;object-fit:cover}.s1{width:22vw;height:34vh;right:7vw;bottom:8vh;transform:rotate(6deg)}.s2{width:18vw;height:28vh;right:29vw;top:12vh;transform:rotate(-7deg)}.s3{width:13vw;height:20vh;right:5vw;top:10vh;transform:rotate(10deg)}
 .hana .chapter-bg{background-image:url('hana_sunset.webp')}.hana .s1 img{object-position:center 30%}.metal .chapter-bg{background-image:url('harley_wide.webp')}.strings .chapter-bg{background-image:url('guitar_inside.webp')}.blood .chapter-bg{background-image:url('yoji_red.webp')}.snow .chapter-bg{background-image:url('snow_hero.webp')}
-.breaker{min-height:120svh;position:relative;display:grid;place-items:center;background:var(--paper);color:#070707;overflow:hidden}.breaker img{position:absolute;width:min(42vw,560px);aspect-ratio:3/4;object-fit:cover;filter:grayscale(.25);box-shadow:0 40px 100px rgba(0,0,0,.28)}.breaker .a{left:5vw;top:14vh;transform:rotate(-8deg)}.breaker .b{right:4vw;bottom:10vh;transform:rotate(7deg)}.breaker h2{position:relative;z-index:2;font-size:clamp(70px,16vw,240px);line-height:.72;letter-spacing:-.08em;text-transform:uppercase;text-align:center;margin:0;mix-blend-mode:multiply}.breaker h2 small{display:block;font-family:Georgia,serif;font-weight:400;font-size:.32em;letter-spacing:-.02em;color:var(--hot)}
-.gallery{padding:12vh 3vw 18vh;background:#050505}.gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:7vh}.gallery h2{font-size:clamp(58px,10vw,160px);line-height:.8;letter-spacing:-.07em;text-transform:uppercase;margin:0}.gallery p{max-width:320px;font-size:12px;line-height:1.8;letter-spacing:.1em;text-transform:uppercase}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.tile{overflow:hidden;position:relative;min-height:38vh}.tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .4s}.tile:hover img{transform:scale(1.08);filter:saturate(1.25)}.tile:nth-child(1){grid-column:span 7;height:72vh}.tile:nth-child(2){grid-column:span 5;height:72vh}.tile:nth-child(3){grid-column:span 4}.tile:nth-child(4){grid-column:span 4}.tile:nth-child(5){grid-column:span 4}.tile:nth-child(6){grid-column:span 8;height:60vh}.tile:nth-child(7){grid-column:span 4;height:60vh}.tile::after{content:attr(data-label);position:absolute;left:12px;bottom:10px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px #000}
-.finale{height:120svh;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 42%,#27211c 0,#060606 46%,#000 100%)}.finale-logo{width:min(72vw,720px);position:relative;z-index:2;filter:drop-shadow(0 0 80px rgba(255,255,255,.16));transform:scale(.75);opacity:0;transition:1.4s cubic-bezier(.2,.8,.2,1)}.finale.show .finale-logo{transform:scale(1);opacity:1}.petal{position:absolute;width:12px;height:28px;border-radius:100% 0 100% 0;background:var(--acid);opacity:.8;animation:fall linear infinite}.final-copy{position:absolute;bottom:5vh;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7)}
-@media(max-width:760px){body::before{display:none}.cursor{display:none}.hero-copy{grid-template-columns:1fr;height:84svh;align-content:space-between}.hero-logo{width:62vw}.hero-title{font-size:20vw}.hero-note{display:none}.hero-media{background-position:58% 38%}.chapter{height:260svh}.chapter-word{font-size:24vw;bottom:7vh}.chapter-caption{top:18vh;right:5vw;width:48vw;font-size:10px}.s1{width:43vw;height:30vh}.s2{width:35vw;height:24vh;right:45vw}.s3{display:none}.breaker img{width:58vw}.breaker .a{left:-10vw}.breaker .b{right:-12vw}.grid{grid-template-columns:1fr 1fr}.tile,.tile:nth-child(n){grid-column:span 1;height:42vh;min-height:0}.tile:nth-child(1),.tile:nth-child(6){grid-column:span 2;height:58vh}.gallery-head{display:block}.gallery p{margin-top:24px}.finale-logo{width:88vw}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.cursor{display:none}}
+.breaker{min-height:120svh;position:relative;display:grid;place-items:center;background:var(--paper);color:#070707;overflow:hidden;content-visibility:auto;contain-intrinsic-size:120svh}.breaker img{position:absolute;width:min(42vw,560px);aspect-ratio:3/4;object-fit:cover;filter:grayscale(.25);box-shadow:0 40px 100px rgba(0,0,0,.28)}.breaker .a{left:5vw;top:14vh;transform:rotate(-8deg)}.breaker .b{right:4vw;bottom:10vh;transform:rotate(7deg)}.breaker h2{position:relative;z-index:2;font-size:clamp(70px,16vw,240px);line-height:.72;letter-spacing:-.08em;text-transform:uppercase;text-align:center;margin:0;mix-blend-mode:multiply}.breaker h2 small{display:block;font-family:Georgia,serif;font-weight:400;font-size:.32em;letter-spacing:-.02em;color:var(--hot)}
+.gallery{padding:12vh 3vw 18vh;background:#050505;content-visibility:auto;contain-intrinsic-size:2200px}.gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:7vh}.gallery h2{font-size:clamp(58px,10vw,160px);line-height:.8;letter-spacing:-.07em;text-transform:uppercase;margin:0}.gallery p{max-width:320px;font-size:12px;line-height:1.8;letter-spacing:.1em;text-transform:uppercase}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.tile{overflow:hidden;position:relative;min-height:38vh}.tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .4s}.tile:hover img{transform:scale(1.08);filter:saturate(1.25)}.tile:nth-child(1){grid-column:span 7;height:72vh}.tile:nth-child(2){grid-column:span 5;height:72vh}.tile:nth-child(3){grid-column:span 4}.tile:nth-child(4){grid-column:span 4}.tile:nth-child(5){grid-column:span 4}.tile:nth-child(6){grid-column:span 8;height:60vh}.tile:nth-child(7){grid-column:span 4;height:60vh}.tile::after{content:attr(data-label);position:absolute;left:12px;bottom:10px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px #000}
+.finale{height:120svh;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 42%,#27211c 0,#060606 46%,#000 100%)}.finale-logo{width:min(72vw,720px);position:relative;z-index:2;filter:drop-shadow(0 0 80px rgba(255,255,255,.16));transform:scale(.75);opacity:0;transition:1.4s cubic-bezier(.2,.8,.2,1)}.finale.show .finale-logo{transform:scale(1);opacity:1}.petal{position:absolute;width:12px;height:28px;border-radius:100% 0 100% 0;background:var(--acid);opacity:.8;animation:fall linear infinite;will-change:transform}.final-copy{position:absolute;bottom:5vh;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+@media(max-width:760px){body::before,body::after{display:none}.cursor{display:none}.hero-copy{grid-template-columns:1fr;height:84svh;align-content:space-between}.hero-logo{width:62vw}.hero-title{font-size:20vw}.hero-note{display:none}.hero-media{background-position:58% 38%;filter:grayscale(1) contrast(1.15) brightness(.62);animation-duration:14s}.enter{backdrop-filter:none}.chapter{height:240svh}.chapter-bg{filter:brightness(.6) saturate(.9)}.chapter-word{font-size:24vw;bottom:7vh}.chapter-caption{top:18vh;right:5vw;width:48vw;font-size:10px}.s1{width:43vw;height:30vh}.s2{width:35vw;height:24vh;right:45vw}.s3{display:none}.shard{box-shadow:0 18px 45px rgba(0,0,0,.42)}.breaker img{width:58vw}.breaker .a{left:-10vw}.breaker .b{right:-12vw}.grid{grid-template-columns:1fr 1fr}.tile,.tile:nth-child(n){grid-column:span 1;height:42vh;min-height:0}.tile:nth-child(1),.tile:nth-child(6){grid-column:span 2;height:58vh}.gallery-head{display:block}.gallery p{margin-top:24px}.finale-logo{width:88vw}.petal:nth-of-type(n+15){display:none}}
+@media(pointer:coarse){.cursor{display:none}.tile:hover img{transform:none;filter:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.cursor{display:none}.chapter-bg,.shard{transform:none!important}.finale-logo{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -32,48 +36,92 @@ body::after{content:"";position:fixed;inset:0;z-index:101;pointer-events:none;op
 <header class="hero" id="top">
   <div class="hero-media"></div>
   <div class="hero-copy">
-    <img class="hero-logo interactive" src="logo.webp" alt="YOJI & HANA logo">
+    <img class="hero-logo interactive" src="logo.webp" alt="YOJI &amp; HANA logo" width="720" height="720" fetchpriority="high" decoding="async">
     <div><h1 class="hero-title"><span>Wild</span><span class="outline">Electric</span><span>Memory</span></h1></div>
     <p class="hero-note">Not a portfolio. Not a biography. A collision of fur, chrome, wood, snow and time.</p>
   </div>
-  <button class="enter interactive" onclick="document.querySelector('.statement').scrollIntoView()">Enter the noise</button>
+  <button class="enter interactive" type="button" onclick="document.querySelector('.statement').scrollIntoView()">Enter the noise</button>
 </header>
 <div class="ticker"><div class="ticker-track"><span>HANA FIRST — GUITARS LOUD — CHROME COLD — SNOW WHITE — MEMORY NEVER QUIET — </span><span>HANA FIRST — GUITARS LOUD — CHROME COLD — SNOW WHITE — MEMORY NEVER QUIET — </span></div></div>
 <section class="statement"><p>Some stories are written. Ours was <em>dragged through snow</em>, amplified through wood and reflected in chrome.</p></section>
-<section class="chapter hana" data-index="01"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">01 — The first light</span><h2 class="chapter-word">Ha<i>na</i></h2><p class="chapter-caption">She did not enter the story. She became the story. Every road, room and season changed shape around her.</p><figure class="shard s1"><img src="hana_eye_crop.webp" alt="Hana eye"></figure><figure class="shard s2"><img src="hana_profile.webp" alt="Hana profile"></figure><figure class="shard s3"><img src="hana_nose_crop.webp" alt="Hana nose"></figure></div></section>
-<section class="chapter strings" data-index="02"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">02 — Wood remembers</span><h2 class="chapter-word">Str<i>ings</i></h2><p class="chapter-caption">Old wood. Frayed wire. The beautiful failure of trying to make electricity sound like a human heart.</p><figure class="shard s1"><img src="guitar_macro.webp" alt="Guitar macro"></figure><figure class="shard s2"><img src="hana_guitar.webp" alt="Hana and guitar"></figure><figure class="shard s3"><img src="guitar_wires.webp" alt="Guitar wires"></figure></div></section>
-<section class="chapter metal" data-index="03"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">03 — The road never asks</span><h2 class="chapter-word">Chr<i>ome</i></h2><p class="chapter-caption">The machine does not promise freedom. It only asks whether you are willing to keep moving when the weather turns.</p><figure class="shard s1"><img src="harley_chrome.webp" alt="Harley chrome"></figure><figure class="shard s2"><img src="harley_mirror.webp" alt="Harley mirror"></figure><figure class="shard s3"><img src="harley_tank.webp" alt="Harley tank"></figure></div></section>
-<section class="breaker"><img class="a" src="kiss.webp" alt="Yoji and Hana"><img class="b" src="pair_yawn.webp" alt="Yoji and Hana"><h2>Two<br><small>against the ordinary</small><br>Always</h2></section>
-<section class="chapter blood" data-index="04"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">04 — Red room</span><h2 class="chapter-word">Yo<i>ji</i></h2><p class="chapter-caption">Not polished. Not posed. A life carried in scars, loud shirts, quiet rooms and the refusal to disappear.</p><figure class="shard s1"><img src="yoji_helmet.webp" alt="Yoji helmet"></figure><figure class="shard s2"><img src="pair_face_crop.webp" alt="Yoji and Hana face"></figure><figure class="shard s3"><img src="benz_night.webp" alt="Benz at night"></figure></div></section>
-<section class="chapter snow" data-index="05"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">05 — White noise</span><h2 class="chapter-word">Sn<i>ow</i></h2><p class="chapter-caption">North wind. White ground. Two figures cutting across a silence too large for words.</p><figure class="shard s1"><img src="winter_pair.webp" alt="Winter pair"></figure><figure class="shard s2"><img src="snow_face.webp" alt="Hana in snow"></figure><figure class="shard s3"><img src="snow_field.webp" alt="Snow field"></figure></div></section>
+<section class="chapter hana" data-index="01"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">01 — The first light</span><h2 class="chapter-word">Ha<i>na</i></h2><p class="chapter-caption">She did not enter the story. She became the story. Every road, room and season changed shape around her.</p><figure class="shard s1"><img src="hana_eye_crop.webp" alt="Hana eye" loading="lazy" decoding="async"></figure><figure class="shard s2"><img src="hana_profile.webp" alt="Hana profile" loading="lazy" decoding="async"></figure><figure class="shard s3"><img src="hana_nose_crop.webp" alt="Hana nose" loading="lazy" decoding="async"></figure></div></section>
+<section class="chapter strings" data-index="02"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">02 — Wood remembers</span><h2 class="chapter-word">Str<i>ings</i></h2><p class="chapter-caption">Old wood. Frayed wire. The beautiful failure of trying to make electricity sound like a human heart.</p><figure class="shard s1"><img src="guitar_macro.webp" alt="Guitar macro" loading="lazy" decoding="async"></figure><figure class="shard s2"><img src="hana_guitar.webp" alt="Hana and guitar" loading="lazy" decoding="async"></figure><figure class="shard s3"><img src="guitar_wires.webp" alt="Guitar wires" loading="lazy" decoding="async"></figure></div></section>
+<section class="chapter metal" data-index="03"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">03 — The road never asks</span><h2 class="chapter-word">Chr<i>ome</i></h2><p class="chapter-caption">The machine does not promise freedom. It only asks whether you are willing to keep moving when the weather turns.</p><figure class="shard s1"><img src="harley_chrome.webp" alt="Harley chrome" loading="lazy" decoding="async"></figure><figure class="shard s2"><img src="harley_mirror.webp" alt="Harley mirror" loading="lazy" decoding="async"></figure><figure class="shard s3"><img src="harley_tank.webp" alt="Harley tank" loading="lazy" decoding="async"></figure></div></section>
+<section class="breaker"><img class="a" src="kiss.webp" alt="Yoji and Hana" loading="lazy" decoding="async"><img class="b" src="pair_yawn.webp" alt="Yoji and Hana" loading="lazy" decoding="async"><h2>Two<br><small>against the ordinary</small><br>Always</h2></section>
+<section class="chapter blood" data-index="04"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">04 — Red room</span><h2 class="chapter-word">Yo<i>ji</i></h2><p class="chapter-caption">Not polished. Not posed. A life carried in scars, loud shirts, quiet rooms and the refusal to disappear.</p><figure class="shard s1"><img src="yoji_helmet.webp" alt="Yoji helmet" loading="lazy" decoding="async"></figure><figure class="shard s2"><img src="pair_face_crop.webp" alt="Yoji and Hana face" loading="lazy" decoding="async"></figure><figure class="shard s3"><img src="benz_night.webp" alt="Benz at night" loading="lazy" decoding="async"></figure></div></section>
+<section class="chapter snow" data-index="05"><div class="sticky"><div class="chapter-bg"></div><span class="chapter-number">05 — White noise</span><h2 class="chapter-word">Sn<i>ow</i></h2><p class="chapter-caption">North wind. White ground. Two figures cutting across a silence too large for words.</p><figure class="shard s1"><img src="winter_pair.webp" alt="Winter pair" loading="lazy" decoding="async"></figure><figure class="shard s2"><img src="snow_face.webp" alt="Hana in snow" loading="lazy" decoding="async"></figure><figure class="shard s3"><img src="snow_field.webp" alt="Snow field" loading="lazy" decoding="async"></figure></div></section>
 <section class="gallery"><div class="gallery-head"><h2>Proof<br>of life</h2><p>No captions needed. Just fragments that refused to fade.</p></div><div class="grid">
-<div class="tile interactive" data-label="Mother / Room"><img src="mother_hana.webp" alt="Mother and Hana"></div>
-<div class="tile interactive" data-label="Hana / Sunset"><img src="hana_sunset.webp" alt="Hana sunset"></div>
-<div class="tile interactive" data-label="Mother / Look"><img src="mother_look.webp" alt="Mother"></div>
-<div class="tile interactive" data-label="Machine / Night"><img src="benz_side.webp" alt="Benz"></div>
-<div class="tile interactive" data-label="Guitar / Full"><img src="guitar_full.webp" alt="Guitar"></div>
-<div class="tile interactive" data-label="Winter / Pair"><img src="winter_pair_mono.webp" alt="Winter pair monochrome"></div>
-<div class="tile interactive" data-label="Hana / Eye"><img src="hana_eye.webp" alt="Hana eye"></div>
+<div class="tile interactive" data-label="Mother / Room"><img src="mother_hana.webp" alt="Mother and Hana" loading="lazy" decoding="async"></div>
+<div class="tile interactive" data-label="Hana / Sunset"><img src="hana_sunset.webp" alt="Hana sunset" loading="lazy" decoding="async"></div>
+<div class="tile interactive" data-label="Mother / Look"><img src="mother_look.webp" alt="Mother" loading="lazy" decoding="async"></div>
+<div class="tile interactive" data-label="Machine / Night"><img src="benz_side.webp" alt="Benz" loading="lazy" decoding="async"></div>
+<div class="tile interactive" data-label="Guitar / Full"><img src="guitar_full.webp" alt="Guitar" loading="lazy" decoding="async"></div>
+<div class="tile interactive" data-label="Winter / Pair"><img src="winter_pair_mono.webp" alt="Winter pair monochrome" loading="lazy" decoding="async"></div>
+<div class="tile interactive" data-label="Hana / Eye"><img src="hana_eye.webp" alt="Hana eye" loading="lazy" decoding="async"></div>
 </div></section>
-<footer class="finale" data-index="06"><img class="finale-logo interactive" src="logo.webp" alt="YOJI & HANA logo"><p class="final-copy">The end is only another entrance.</p></footer>
+<footer class="finale" data-index="06"><img class="finale-logo interactive" src="logo.webp" alt="YOJI &amp; HANA logo" loading="lazy" decoding="async"><p class="final-copy">The end is only another entrance.</p></footer>
 <script>
-const root=document.documentElement, cursor=document.querySelector('.cursor'), progress=document.querySelector('.progress'), counter=document.querySelector('.counter');
-let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
-addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;root.style.setProperty('--mx',mx+'px');root.style.setProperty('--my',my+'px')});
-(function follow(){cx+=(mx-cx)*.16;cy+=(my-cy)*.16;cursor.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(follow)})();
-document.querySelectorAll('.interactive').forEach(el=>{el.addEventListener('mouseenter',()=>cursor.classList.add('big'));el.addEventListener('mouseleave',()=>cursor.classList.remove('big'))});
+(()=>{
+const root=document.documentElement;
+const cursor=document.querySelector('.cursor');
+const progress=document.querySelector('.progress');
+const counter=document.querySelector('.counter');
 const chapters=[...document.querySelectorAll('[data-index]')];
-function clamp(v,a=0,b=1){return Math.max(a,Math.min(b,v))}
-function frame(){
- const max=document.documentElement.scrollHeight-innerHeight; const y=scrollY; progress.style.width=(max?y/max*100:0)+'%';
+const motionOK=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer=matchMedia('(pointer:fine)').matches;
+const mobile=matchMedia('(max-width:760px)').matches;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+let ticking=false;
+
+function render(){
+ ticking=false;
+ const vh=innerHeight;
+ const max=document.documentElement.scrollHeight-vh;
+ const y=scrollY;
+ progress.style.transform=`scaleX(${max?y/max:0})`;
  let active='00';
- chapters.forEach(sec=>{const r=sec.getBoundingClientRect(); if(r.top<innerHeight*.55&&r.bottom>innerHeight*.45) active=sec.dataset.index;
-  if(sec.classList.contains('chapter')){const total=sec.offsetHeight-innerHeight;const p=clamp(-r.top/total);const bg=sec.querySelector('.chapter-bg');bg.style.transform=`scale(${1.15-p*.08}) translate3d(0,${(p-.5)*5}%,0)`;bg.style.filter=`brightness(${.5+p*.18}) saturate(${.8+p*.35})`;
-   sec.querySelectorAll('.shard').forEach((s,i)=>{const dir=i%2?1:-1;const x=(.5-p)*dir*(70+i*24);const rot=(i-1)*7+(p-.5)*18*dir;s.style.transform=`translate3d(${x}px,${(p-.5)*(i+1)*45}px,0) rotate(${rot}deg)`;s.style.opacity=clamp((p-.08)*3)*clamp((1-p)*3)});
-  }
- }); counter.textContent=active+' / 06';
- const fin=document.querySelector('.finale'); if(fin.getBoundingClientRect().top<innerHeight*.6)fin.classList.add('show'); requestAnimationFrame(frame)
-} requestAnimationFrame(frame);
-const finale=document.querySelector('.finale');for(let i=0;i<34;i++){const p=document.createElement('i');p.className='petal';p.style.left=Math.random()*100+'%';p.style.top=(-10-Math.random()*100)+'px';p.style.background=["var(--acid)","var(--hot)","var(--blue)","#fff"][i%4];p.style.animationDuration=(5+Math.random()*7)+'s';p.style.animationDelay=(-Math.random()*10)+'s';p.style.transform=`rotate(${Math.random()*180}deg)`;finale.appendChild(p)}
+ chapters.forEach(sec=>{
+  const r=sec.getBoundingClientRect();
+  if(r.top<vh*.55&&r.bottom>vh*.45)active=sec.dataset.index;
+  if(!motionOK||!sec.classList.contains('chapter')||r.bottom<-vh||r.top>vh*2)return;
+  const total=Math.max(1,sec.offsetHeight-vh);
+  const p=clamp(-r.top/total);
+  const bg=sec.querySelector('.chapter-bg');
+  bg.style.transform=`scale(${1.15-p*.08}) translate3d(0,${(p-.5)*(mobile?2.5:5)}%,0)`;
+  sec.querySelectorAll('.shard').forEach((s,i)=>{
+   const dir=i%2?1:-1;
+   const amount=mobile?36:70+i*24;
+   const x=(.5-p)*dir*amount;
+   const rot=(i-1)*7+(p-.5)*(mobile?10:18)*dir;
+   s.style.transform=`translate3d(${x}px,${(p-.5)*(i+1)*(mobile?24:45)}px,0) rotate(${rot}deg)`;
+   s.style.opacity=clamp((p-.08)*3)*clamp((1-p)*3);
+  });
+ });
+ counter.textContent=active+' / 06';
+ const fin=document.querySelector('.finale');
+ if(fin.getBoundingClientRect().top<vh*.65)fin.classList.add('show');
+}
+function requestRender(){if(!ticking){ticking=true;requestAnimationFrame(render)}}
+addEventListener('scroll',requestRender,{passive:true});
+addEventListener('resize',requestRender,{passive:true});
+requestRender();
+
+if(finePointer&&motionOK){
+ let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,cursorActive=true;
+ addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;root.style.setProperty('--mx',mx+'px');root.style.setProperty('--my',my+'px')},{passive:true});
+ const follow=()=>{if(cursorActive){cx+=(mx-cx)*.16;cy+=(my-cy)*.16;cursor.style.transform=`translate3d(${cx}px,${cy}px,0) translate(-50%,-50%)`}requestAnimationFrame(follow)};
+ follow();
+ document.addEventListener('visibilitychange',()=>{cursorActive=!document.hidden});
+ document.querySelectorAll('.interactive').forEach(el=>{el.addEventListener('mouseenter',()=>cursor.classList.add('big'));el.addEventListener('mouseleave',()=>cursor.classList.remove('big'))});
+}else cursor.remove();
+
+if(motionOK){
+ const finale=document.querySelector('.finale');
+ const count=mobile?14:24;
+ for(let i=0;i<count;i++){
+  const p=document.createElement('i');p.className='petal';p.style.left=Math.random()*100+'%';p.style.top=(-10-Math.random()*100)+'px';p.style.background=['var(--acid)','var(--hot)','var(--blue)','#fff'][i%4];p.style.animationDuration=(6+Math.random()*7)+'s';p.style.animationDelay=(-Math.random()*10)+'s';finale.appendChild(p)
+ }
+}
+})();
 </script>
 </body></html>
