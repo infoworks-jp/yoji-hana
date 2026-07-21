@@ -71,26 +71,25 @@ cat > "$BIN/sync-site-photos.command" <<EOF
 set -euo pipefail
 WEBIMG="$WEBIMG"
 SITEPHOTOS="$SITEPHOTOS"
+PROJECT="$PROJECT"
 mkdir -p "\$SITEPHOTOS"
-selected=(
-  IMG_4091.jpg IMG_7114.jpg IMG_7428.jpg IMG_8795.jpg IMG_8853.jpg
-  IMG_9089.jpg IMG_9105.jpg IMG_9177.jpg IMG_9216.jpg IMG_9255.jpg
-  IMG_9260.jpg IMG_9388.jpg IMG_9547.jpg IMG_9637.jpg IMG_9671.jpg
-  IMG_9889.jpg IMG_6335.jpg IMG_6342.jpg
-)
-find "\$SITEPHOTOS" -maxdepth 1 -type f -iname '*.jpg' -delete
-copied=0; missing=0
-for name in "\${selected[@]}"; do
-  src="\$(find "\$WEBIMG" -type f -name "\$name" -print -quit)"
-  if [[ -n "\$src" ]]; then
-    cp -f "\$src" "\$SITEPHOTOS/\$name"
-    (( copied+=1 ))
-  else
-    echo "不足: \$name"
-    (( missing+=1 ))
-  fi
-done
-echo "サイト用写真: \$copied 枚 / 不足: \$missing 枚"
+find "\$SITEPHOTOS" -type f -iname '*.jpg' -delete
+copied=0
+while IFS= read -r -d '' src; do
+  rel="\${src#\$WEBIMG/}"
+  safe="\${rel//\//__}"
+  cp -f "\$src" "\$SITEPHOTOS/\$safe"
+  (( copied+=1 ))
+done < <(find "\$WEBIMG" -type f -iname '*.jpg' -print0 | sort -z)
+python3 - "\$SITEPHOTOS" "\$PROJECT/photos.json" <<'PY'
+from pathlib import Path
+import json, sys
+root=Path(sys.argv[1]); out=Path(sys.argv[2])
+files=sorted([p.name for p in root.glob('*.jpg')], key=str.lower)
+out.write_text(json.dumps(files, ensure_ascii=False, indent=2), encoding='utf-8')
+print(f'全写真マニフェスト: {len(files)} 枚')
+PY
+echo "サイト用写真を全件同期: \$copied 枚"
 EOF
 chmod +x "$BIN/sync-site-photos.command"
 
@@ -113,7 +112,7 @@ cd "\$PROJECT"
 git pull --rebase --autostash
 if [[ -n "\$(git status --porcelain)" ]]; then
   git add -A
-  git commit -m "Publish selected YOJI & HANA photographs \$(date '+%Y-%m-%d %H:%M')"
+  git commit -m "Publish all YOJI & HANA photographs \$(date '+%Y-%m-%d %H:%M')"
   git push
 fi
 open "https://infoworks-jp.github.io/yoji-hana/?v=\$(date +%s)"
@@ -132,11 +131,11 @@ git pull --ff-only
 cd "\$PROJECT"
 if [[ -n "\$(git status --porcelain)" ]]; then
   git add -A
-  git commit -m "Publish selected YOJI & HANA photographs \$(date '+%Y-%m-%d %H:%M')"
+  git commit -m "Publish all YOJI & HANA photographs \$(date '+%Y-%m-%d %H:%M')"
   git push
 fi
 open "https://infoworks-jp.github.io/yoji-hana/?v=\$(date +%s)"
-echo "更新・写真選定・サイト公開が完了しました。"
+echo "更新・全写真同期・サイト公開が完了しました。"
 EOF
 chmod +x "$BIN/update-yoji-hana.command"
 
@@ -152,4 +151,4 @@ ln -sfn "$BIN/publish-yoji-hana.command" "$DESKTOP/5 GitHubへ公開.command"
 AUTO_RUN=1 "$BIN/optimize-images.command"
 AUTO_RUN=1 "$BIN/create-photo-catalog.command"
 "$BIN/sync-site-photos.command"
-echo "YOJI-STATIONを更新しました。『1 最新版に更新』で写真選定から公開まで実行します。"
+echo "YOJI-STATIONを更新しました。今後は写真フォルダ内の全画像を自動で公開します。"
