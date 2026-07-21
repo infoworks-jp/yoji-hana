@@ -2,10 +2,33 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/infoworks-jp/yoji-hana.git"
-ROOT="${1:-$HOME/YOJI-STATION}"
-PROJECT="$ROOT/YOJI/WEB/yoji-hana"
 
 say(){ printf '\n==> %s\n' "$1"; }
+fail(){ printf '\nERROR: %s\n' "$1" >&2; exit 1; }
+
+# Use an explicit path when supplied. Otherwise prefer the mounted TRANSCEND SSD,
+# then fall back to a local folder in the user's home directory.
+if [[ $# -ge 1 && -n "${1:-}" ]]; then
+  ROOT="$1"
+elif [[ -d "/Volumes/TRANSCEND" ]]; then
+  ROOT="/Volumes/TRANSCEND/YOJI-STATION"
+else
+  ROOT="$HOME/YOJI-STATION"
+fi
+
+# Validate the parent before creating anything substantial.
+PARENT="${ROOT:h}"
+[[ -d "$PARENT" ]] || fail "保存先の親フォルダが見つかりません: $PARENT"
+TESTFILE="$PARENT/.yoji-station-write-test-$$"
+if ! ( : > "$TESTFILE" ) 2>/dev/null; then
+  fail "保存先へ書き込めません: $PARENT"
+fi
+rm -f "$TESTFILE"
+
+PROJECT="$ROOT/YOJI/WEB/yoji-hana"
+
+say "保存先を確認"
+echo "$ROOT"
 
 say "制作ステーションのフォルダを作成"
 mkdir -p \
@@ -25,13 +48,14 @@ mkdir -p \
 
 say "Git の確認"
 if ! command -v git >/dev/null 2>&1; then
-  echo "Git が見つかりません。xcode-select --install を実行してください。"
-  exit 1
+  fail "Git が見つかりません。xcode-select --install を実行してください。"
 fi
 
 say "YOJI & HANA リポジトリを同期"
 if [[ -d "$PROJECT/.git" ]]; then
   git -C "$PROJECT" pull --ff-only
+elif [[ -e "$PROJECT" ]]; then
+  fail "既存フォルダがあり、Gitリポジトリではありません: $PROJECT"
 else
   git clone "$REPO_URL" "$PROJECT"
 fi
@@ -41,6 +65,7 @@ cat > "$ROOT/backup-station.sh" <<'BACKUP'
 #!/bin/zsh
 set -euo pipefail
 ROOT="${1:-$HOME/YOJI-STATION}"
+[[ -d "$ROOT" ]] || { echo "Station not found: $ROOT" >&2; exit 1; }
 STAMP=$(date +%Y-%m-%d_%H-%M-%S)
 DEST="$ROOT/BACKUP/$STAMP"
 mkdir -p "$DEST"
@@ -52,7 +77,7 @@ echo "Backup completed: $DEST"
 BACKUP
 chmod +x "$ROOT/backup-station.sh"
 
-say "Mac起動時に毎日バックアップする設定を作成"
+say "毎日午前3時とMac起動時のバックアップを設定"
 PLIST="$HOME/Library/LaunchAgents/jp.yoji.station.backup.plist"
 mkdir -p "$HOME/Library/LaunchAgents"
 cat > "$PLIST" <<PLIST
