@@ -9,11 +9,12 @@ WEBIMG="$ROOT/YOJI/PHOTO/WEB"
 PHOTO="$ROOT/YOJI/PHOTO"
 LOG="$ROOT/LOGS"
 DESKTOP="$HOME/Desktop/YOJI-STATION"
+SITEPHOTOS="$PROJECT/photos"
 
 fail(){ echo "ERROR: $1" >&2; exit 1; }
 [[ -d "$ROOT" ]] || fail "制作ステーションが見つかりません: $ROOT"
 [[ -d "$PROJECT/.git" ]] || fail "Webプロジェクトが見つかりません: $PROJECT"
-mkdir -p "$BIN" "$DROP" "$WEBIMG" "$PHOTO" "$LOG" "$DESKTOP"
+mkdir -p "$BIN" "$DROP" "$WEBIMG" "$PHOTO" "$LOG" "$DESKTOP" "$SITEPHOTOS"
 
 cat > "$BIN/optimize-images.command" <<EOF
 #!/bin/zsh
@@ -65,6 +66,28 @@ open "\$CATALOG"
 EOF
 chmod +x "$BIN/create-photo-catalog.command"
 
+cat > "$BIN/sync-site-photos.command" <<EOF
+#!/bin/zsh
+set -euo pipefail
+WEBIMG="$WEBIMG"
+SITEPHOTOS="$SITEPHOTOS"
+mkdir -p "\$SITEPHOTOS"
+selected=(
+  IMG_4091.jpg IMG_7114.jpg IMG_7428.jpg IMG_8795.jpg IMG_8853.jpg
+  IMG_9089.jpg IMG_9105.jpg IMG_9177.jpg IMG_9216.jpg IMG_9255.jpg
+  IMG_9260.jpg IMG_9388.jpg IMG_9547.jpg IMG_9637.jpg IMG_9671.jpg
+  IMG_9889.jpg IMG_6335.jpg IMG_6342.jpg
+)
+rm -f "\$SITEPHOTOS"/*.jpg
+copied=0; missing=0
+for name in "\${selected[@]}"; do
+  src="\$(find "\$WEBIMG" -type f -name "\$name" -print -quit)"
+  if [[ -n "\$src" ]]; then cp -f "\$src" "\$SITEPHOTOS/\$name"; (( copied++ )); else echo "不足: \$name"; (( missing++ )); fi
+done
+echo "サイト用写真: \$copied 枚 / 不足: \$missing 枚"
+EOF
+chmod +x "$BIN/sync-site-photos.command"
+
 cat > "$BIN/preview-yoji-hana.command" <<EOF
 #!/bin/zsh
 PROJECT="$PROJECT"; PORT=8765; cd "\$PROJECT"
@@ -76,8 +99,17 @@ chmod +x "$BIN/preview-yoji-hana.command"
 cat > "$BIN/publish-yoji-hana.command" <<EOF
 #!/bin/zsh
 set -euo pipefail
-cd "$PROJECT"; git pull --rebase --autostash
-if [[ -n "\$(git status --porcelain)" ]]; then git add -A; git commit -m "Mac mini update \$(date '+%Y-%m-%d %H:%M')"; git push; fi
+PROJECT="$PROJECT"
+AUTO_RUN=1 "$BIN/optimize-images.command"
+AUTO_RUN=1 "$BIN/create-photo-catalog.command"
+"$BIN/sync-site-photos.command"
+cd "\$PROJECT"
+git pull --rebase --autostash
+if [[ -n "\$(git status --porcelain)" ]]; then
+  git add -A
+  git commit -m "Publish selected YOJI & HANA photographs \$(date '+%Y-%m-%d %H:%M')"
+  git push
+fi
 open "https://infoworks-jp.github.io/yoji-hana/?v=\$(date +%s)"
 EOF
 chmod +x "$BIN/publish-yoji-hana.command"
@@ -90,7 +122,15 @@ cd "\$PROJECT"
 if [[ -n "\$(git status --porcelain)" ]]; then echo "ローカル変更があるため停止しました。"; git status --short; read -k 1 "?キーを押して閉じる..."; exit 1; fi
 git pull --ff-only
 /bin/zsh "\$PROJECT/tools/mac-mini-station-phase2.sh" "\$ROOT"
-echo "更新・画像確認・写真一覧作成が完了しました。"
+"$BIN/sync-site-photos.command"
+cd "\$PROJECT"
+if [[ -n "\$(git status --porcelain)" ]]; then
+  git add -A
+  git commit -m "Publish selected YOJI & HANA photographs \$(date '+%Y-%m-%d %H:%M')"
+  git push
+fi
+open "https://infoworks-jp.github.io/yoji-hana/?v=\$(date +%s)"
+echo "更新・写真選定・サイト公開が完了しました。"
 EOF
 chmod +x "$BIN/update-yoji-hana.command"
 
@@ -105,4 +145,5 @@ ln -sfn "$BIN/publish-yoji-hana.command" "$DESKTOP/5 GitHubへ公開.command"
 
 AUTO_RUN=1 "$BIN/optimize-images.command"
 AUTO_RUN=1 "$BIN/create-photo-catalog.command"
-echo "YOJI-STATIONを更新しました。以後は『1 最新版に更新』だけで更新と写真一覧作成まで実行します。"
+"$BIN/sync-site-photos.command"
+echo "YOJI-STATIONを更新しました。『1 最新版に更新』で写真選定から公開まで実行します。"
